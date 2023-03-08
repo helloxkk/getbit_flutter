@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:rural_revitalize_flutter/widgets/my_bottom_navigation_bar.dart';
 import '../pages/home/home_page.dart';
 import 'pages/services/service_page.dart';
 import 'pages/moments/timeline_page.dart';
@@ -62,19 +63,6 @@ class _MyAppState extends State<MyAppRoute> {
     MomentsPage(),
     MyPage(),
   ];
-  final List<String> titles = ["首页", "服务", "动态", "我的"];
-  final List<String> normalImgUrls = [
-    "assets/images/menu_home.png",
-    "assets/images/menu_service.png",
-    "assets/images/menu_dynamic.png",
-    "assets/images/menu_mine.png"
-  ];
-  final List<String> selectedImgUrls = [
-    "assets/images/menu_home_p.png",
-    "assets/images/menu_service_p.png",
-    "assets/images/menu_dynamic_p.png",
-    "assets/images/menu_mine_p.png"
-  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -87,53 +75,40 @@ class _MyAppState extends State<MyAppRoute> {
     double itemWidth = MediaQuery.of(context).size.width / 5;
 
     return Scaffold(
-          key: _scaffoldKey,
-          body: Navigator(
-            onGenerateRoute: (settings) {
-              return MaterialPageRoute(
-                settings: settings,
-                builder: (context) => Scaffold(
-                  body: _children[_currentIndex],
-                  // floatingActionButton: FloatingActionButton(
-                  //   onPressed: () => _onAddButtonPressed(context),
-                  //   tooltip: 'Add',
-                  //   child: Icon(Icons.add),
-                  //   elevation: 2.0,
-                  // ),
-                  // floatingActionButtonLocation:
-                  //     FloatingActionButtonLocation.centerDocked,
-                  bottomNavigationBar: BottomAppBar(
-                    height: 68,
-                    color: Colors.white,
-                    shape: const CircularNotchedRectangle(),
-                    notchMargin: 4.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        SizedBox(
-                            height: 49,
-                            width: itemWidth,
-                            child: bottomAppBarItem(0)),
-                        SizedBox(
-                            height: 49,
-                            width: itemWidth,
-                            child: bottomAppBarItem(1)),
-                        // SizedBox(height: 49, width: itemWidth),
-                        SizedBox(
-                            height: 49,
-                            width: itemWidth,
-                            child: bottomAppBarItem(2)),
-                        SizedBox(
-                            height: 49,
-                            width: itemWidth,
-                            child: bottomAppBarItem(3))
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
+      key: _scaffoldKey,
+      body: Navigator(
+        onGenerateRoute: (settings) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (context) => Scaffold(
+              body: _children[_currentIndex],
+              // floatingActionButton: FloatingActionButton(
+              //   onPressed: () => _onAddButtonPressed(context),
+              //   tooltip: 'Add',
+              //   child: Icon(Icons.add),
+              //   elevation: 2.0,
+              // ),
+              // floatingActionButtonLocation:
+              //     FloatingActionButtonLocation.centerDocked,
+              bottomNavigationBar: MyBottomNavigationBar(
+                labels: const ["首页", "服务", "动态", "我的"],
+                iconPaths: const [
+                  "assets/images/menu_home.png",
+                  "assets/images/menu_service.png",
+                  "assets/images/menu_dynamic.png",
+                  "assets/images/menu_mine.png"
+                ],
+                activeIconPaths: const [
+                  "assets/images/menu_home_p.png",
+                  "assets/images/menu_service_p.png",
+                  "assets/images/menu_dynamic_p.png",
+                  "assets/images/menu_mine_p.png"
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -145,42 +120,6 @@ class _MyAppState extends State<MyAppRoute> {
         builder: (BuildContext context) => PostMomentPage(),
       ),
     );
-  }
-
-  Widget bottomAppBarItem(int index) {
-    //设置默认未选中的状态
-    TextStyle style = TextStyle(fontSize: 12, color: Colors.black);
-    String imgUrl = normalImgUrls[index];
-    if (_currentIndex == index) {
-      //选中的话
-      style = const TextStyle(
-          fontSize: 13, color: Color.fromRGBO(64, 150, 105, 100));
-      imgUrl = selectedImgUrls[index];
-    }
-    //构造返回的Widget
-    Widget item = Container(
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Image.asset(imgUrl, width: 24, height: 24),
-            Text(
-              titles[index],
-              style: style,
-            )
-          ],
-        ),
-        onTap: () {
-          if (_currentIndex != index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          }
-        },
-      ),
-    );
-    return item;
   }
 
 }
