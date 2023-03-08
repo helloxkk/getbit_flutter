@@ -104,6 +104,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "8.2.1"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      sha256: "910f85bce16fb5c6f614e117efa303e85a1731bb0081edf3604a2ae6e9a3cc91"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.17.0"
   js:
     dependency: transitive
     description:
@@ -120,6 +128,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.1"
+  lunar:
+    dependency: "direct main"
+    description:
+      name: lunar
+      sha256: bc6bebee5ae0c346b746ff9fd6698862c91a0306cf41f8824a564ad4ff954abc
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.3.1"
   matcher:
     dependency: transitive
     description:
@@ -215,4 +231,4 @@ packages:
     version: "2.1.4"
 sdks:
   dart: ">=3.0.0-290.0.dev <4.0.0"
-  flutter: ">=1.10.0"
+  flutter: ">=2.0.0"

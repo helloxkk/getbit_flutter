@@ -25,8 +25,8 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
 
   final List<Widget> _children = [HomePage(), ServicesPage(), MomentsPage(), MyPage(),];
   final List<String> titles = ["首页", "服务", "动态", "我的"];
-  final List<String> normalImgUrls = ["images/menu_home.png", "images/menu_service.png", "images/menu_dynamic.png", "images/menu_mine.png"];
-  final List<String> selectedImgUrls = ["images/menu_home_p.png", "images/menu_service_p.png", "images/menu_dynamic_p.png", "images/menu_mine_p.png"];
+  final List<String> normalImgUrls = ["assets/images/menu_home.png", "assets/images/menu_service.png", "assets/images/menu_dynamic.png", "assets/images/menu_mine.png"];
+  final List<String> selectedImgUrls = ["assets/images/menu_home_p.png", "assets/images/menu_service_p.png", "assets/images/menu_dynamic_p.png", "assets/images/menu_mine_p.png"];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -44,9 +44,9 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
       onWillPop: _onBackPressed,
       child: MaterialApp(
         key: UniqueKey(), // 使用 UniqueKey() 或其他不重复的 key
-        title: 'Flutter Demo',
+        title: '村晓',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primaryColor: Colors.white,
         ),
         home: Scaffold(
           key: _scaffoldKey,
@@ -105,7 +105,7 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
     String imgUrl = normalImgUrls[index];
     if (_currentIndex == index) {
       //选中的话
-      style = TextStyle(fontSize: 13, color: Colors.blue);
+      style = const TextStyle(fontSize: 13, color: Color.fromRGBO(64,150,105,100));
       imgUrl = selectedImgUrls[index];
     }
     //构造返回的Widget

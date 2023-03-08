@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'dart:convert';
+import 'package:flutter/services.dart';
 
 class MyBanner extends StatefulWidget {
 
@@ -9,13 +11,31 @@ class MyBanner extends StatefulWidget {
 
 class _BannerWidgetState extends State<MyBanner> {
   int _currentIndex = 0;
+  List<Widget> _imageList = [];
 
-  final List<String> _imageUrls = [
-    'https://picsum.photos/id/1015/500/300',
-    'https://picsum.photos/id/1016/500/300',
-    'https://picsum.photos/id/1018/500/300',
-    'https://picsum.photos/id/1019/500/300',
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _loadBannerList();
+  }
+
+  Future<void> _loadBannerList() async {
+    try {
+      String jsonString =
+      await rootBundle.loadString('assets/json/banner_list.json');
+      List<dynamic> bannerList = json.decode(jsonString);
+      setState(() {
+        _imageList = bannerList.map((item) {
+          return Image.network(
+            item['imgUrl'],
+            fit: BoxFit.cover,
+          );
+        }).toList();
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,23 +47,23 @@ class _BannerWidgetState extends State<MyBanner> {
             itemBuilder: (BuildContext context, int index) {
               return ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  _imageUrls[index],
-                  fit: BoxFit.cover,
-                ),
+                child: _imageList[index],
               );
             },
-            itemCount: _imageUrls.length,
+            itemCount: _imageList.length,
             autoplay: true,
             onIndexChanged: (index) {
               setState(() {
                 _currentIndex = index;
               });
             },
-            pagination: SwiperPagination(
+            pagination: const SwiperPagination(
               builder: DotSwiperPaginationBuilder(
+                size: 6,
+                activeSize: 6,
+                space: 2,
                 activeColor: Colors.white,
-                color: Colors.grey,
+                color: Colors.white54,
               ),
             ),
           ),

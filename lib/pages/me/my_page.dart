@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../base_page.dart';
+import '../../base/base_page.dart';
 
 class MyPage extends BasePage {
   @override
@@ -46,7 +46,7 @@ class MyPage extends BasePage {
         children: [
           ClipOval(
             child: Image.asset(
-              'images/avatar.png',
+              'assets/images/avatar.png',
               width: 64,
               height: 64,
               fit: BoxFit.cover,
@@ -100,22 +100,22 @@ class MyPage extends BasePage {
             physics: NeverScrollableScrollPhysics(),
             children: [
               _buildServiceItem(
-                'images/feedback.png',
+                'assets/images/feedback.png',
                 '意见反馈',
                 () => Fluttertoast.showToast(msg: '点击了意见反馈'),
               ),
               _buildServiceItem(
-                'images/feedback.png',
+                'assets/images/feedback.png',
                 '关于我们',
                 () => Fluttertoast.showToast(msg: '点击了关于我们'),
               ),
               _buildServiceItem(
-                'images/feedback.png',
+                'assets/images/feedback.png',
                 '客服热线',
                 () => Fluttertoast.showToast(msg: '点击了客服热线'),
               ),
               _buildServiceItem(
-                'images/feedback.png',
+                'assets/images/feedback.png',
                 '分享我们',
                 () => Fluttertoast.showToast(
                     msg: "This is Center Short Toast",

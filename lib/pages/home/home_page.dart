@@ -1,42 +1,161 @@
 import 'package:flutter/material.dart';
-import '../../base_page.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'home_banner.dart';
+import 'dart:convert';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:lunar/lunar.dart';
 
-class HomePage extends BasePage {
-  final List<Map<String, dynamic>> _functions = [
-    {'icon': Icons.send, 'text': '发消息'},
-    {'icon': Icons.photo_camera, 'text': '拍照'},
-    {'icon': Icons.phone, 'text': '打电话'},
-    {'icon': Icons.near_me, 'text': '附近'},
-    {'icon': Icons.directions_car, 'text': '开车'},
-    {'icon': Icons.music_note, 'text': '音乐'},
-    {'icon': Icons.movie, 'text': '电影'},
-    {'icon': Icons.shopping_basket, 'text': '购物'},
-  ];
+class HomePage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return HomePageState();
+  }
+}
+
+class HomePageState extends State<HomePage> {
+  List<dynamic> _dockList = [];
 
   @override
-  PreferredSizeWidget buildAppBar() {
-    return AppBar(
-      title: const Text('首页'),
-    );
+  initState() {
+    super.initState();
+    _loadDockList();
+  }
+
+  Future<void> _loadDockList() async {
+    try {
+      String jsonString =
+          await rootBundle.loadString('assets/json/dock_list.json');
+      setState(() {
+        _dockList = json.decode(jsonString);
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
-  Widget buildBody(BuildContext context) {
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: buildAppBar(),
+      body: GestureDetector(
+        onTap: () {
+          // 点击空白处收起键盘
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: buildBody(context),
+      ),
+    );
+  }
+
+  buildAppBar() {
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('M月d日 EEEE').format(now);
+    Lunar date = Lunar.fromDate(now);
+    print(date.getSolar().toFullString());
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      centerTitle: false,
+      leading: null,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // flutter 获取日期显示在Text上，日期格式为：“3月8日 周三 阴历二月十七”
+              Text(
+                formattedDate,
+                style: const TextStyle(
+                  fontSize: 11.0,
+                  color: Colors.black,
+                ),
+              ),
+              const SizedBox(width: 1),
+              Text(
+                  date.toString(),
+                style: const TextStyle(
+                  fontSize: 10.0,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          ),
+          Expanded(
+            child: Container(),
+          )
+        ],
+      ),
+      actions: [
+        Container(
+          width: 75,
+          height: 30,
+          margin: const EdgeInsets.symmetric(vertical: 13, horizontal: 0),
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/search_icon.png',
+                width: 17,
+                height: 17,
+              ),
+              const SizedBox(width: 5),
+              const Text(
+                "搜索",
+                style: TextStyle(
+                  fontSize: 12.0,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          ),
+        ),
+        IconButton(
+          icon: Image.asset(
+            "assets/images/ic_scan.png",
+            width: 30,
+            height: 30,
+          ),
+          onPressed: () {
+            Fluttertoast.showToast(msg: "扫一扫");
+          },
+        ),
+        IconButton(
+          icon: Image.asset(
+            "assets/images/ic_notification.png",
+            width: 30,
+            height: 30,
+          ),
+          onPressed: () {
+            Fluttertoast.showToast(msg: "消息");
+          },
+        ),
+      ],
+    );
+  }
+
+  buildBody(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   MyBanner(),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Container(
                     height: 44,
-                    margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(6),
@@ -45,57 +164,70 @@ class HomePage extends BasePage {
                           color: Colors.grey.withOpacity(0.2),
                           spreadRadius: 1,
                           blurRadius: 2,
-                          offset: Offset(0, 1),
+                          offset: const Offset(0, 1),
                         ),
                       ],
                     ),
-                    child: Row(
+                    child:  Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
+                        const Row(
                           children: [
                             SizedBox(width: 10),
-                            Icon(Icons.location_on),
+                            Icon(Icons.location_on_outlined, size: 20),
                             SizedBox(width: 5),
-                            Text('位置'),
+                            Text('顺德区'),
                           ],
                         ),
                         Row(
                           children: [
-                            Icon(Icons.cloud),
-                            SizedBox(width: 5),
-                            Text('今日天气'),
+                            Image.network(
+                              "http://app1.showapi.com/weather/icon/day/00.png",
+                              fit: BoxFit.cover,
+                              width: 22,
+                            ),
+                            const SizedBox(width: 5),
+                            const Text('晴 24°C'),
                           ],
                         ),
                         Row(
                           children: [
-                            Icon(Icons.cloud),
-                            SizedBox(width: 5),
-                            Text('一小时后天气'),
-                            SizedBox(width: 10),
+                            Image.network(
+                              "http://app1.showapi.com/weather/icon/day/01.png",
+                              fit: BoxFit.cover,
+                              width: 22,
+                            ),
+                            const SizedBox(width: 5),
+                            const Text('一小时后 多云'),
+                            const SizedBox(width: 10),
                           ],
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   GridView.count(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     crossAxisCount: 4,
-                    children: List.generate(_functions.length, (index) {
+                    children: List.generate(_dockList.length, (index) {
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Icon(_functions[index]['icon'], size: 32.0),
-                          SizedBox(height: 8.0),
-                          Text(_functions[index]['text'],
-                              style: TextStyle(fontSize: 12.0)),
+                          Image.network(
+                            _dockList[index]['iconUrl'],
+                            fit: BoxFit.cover,
+                            width: 48,
+                            height: 48,
+                          ),
+                          const SizedBox(height: 5.0),
+                          Text(_dockList[index]['name'],
+                              style: const TextStyle(fontSize: 14.0)),
                         ],
                       );
                     }),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   DefaultTabController(
                     length: 2,
                     child: Column(
@@ -121,13 +253,13 @@ class HomePage extends BasePage {
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius:
-                                        BorderRadius.circular(8.0),
+                                            BorderRadius.circular(8.0),
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.all(16.0),
                                         child: Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text(
                                               "动态标题 $index",
@@ -146,8 +278,8 @@ class HomePage extends BasePage {
                                             SizedBox(height: 8.0),
                                             Row(
                                               mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: <Widget>[
                                                 Text(
                                                   "12-31",
@@ -203,13 +335,13 @@ class HomePage extends BasePage {
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius:
-                                        BorderRadius.circular(8.0),
+                                            BorderRadius.circular(8.0),
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.all(16.0),
                                         child: Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text(
                                               "专栏标题 $index",
@@ -228,8 +360,8 @@ class HomePage extends BasePage {
                                             SizedBox(height: 8.0),
                                             Row(
                                               mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: <Widget>[
                                                 Text(
                                                   "12-31",

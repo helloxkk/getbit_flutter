@@ -7,7 +7,7 @@ class TitleBar extends StatelessWidget {
       height: kToolbarHeight,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.transparent,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0),
@@ -28,7 +28,7 @@ class TitleBar extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 16),
               padding: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.white12,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Row(
@@ -49,11 +49,19 @@ class TitleBar extends StatelessWidget {
             ),
           ),
           IconButton(
-            icon: Icon(Icons.qr_code_scanner),
+            icon: Image.asset(
+              "assets/images/ic_scan.png",
+              width: 30,
+              height: 30,
+            ),
             onPressed: () {},
           ),
           IconButton(
-            icon: Icon(Icons.notifications),
+            icon: Image.asset(
+              "assets/images/ic_notification.png",
+              width: 30,
+              height: 30,
+            ),
             onPressed: () {},
           ),
         ],

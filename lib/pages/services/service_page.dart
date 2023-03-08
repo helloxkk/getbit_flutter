@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../base_page.dart';
+import '../../base/base_page.dart';
 
 class ServicesPage extends BasePage {
   @override
