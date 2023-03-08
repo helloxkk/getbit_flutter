@@ -171,8 +171,8 @@ class HomePageState extends State<HomePage> {
                     child:  Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Row(
-                          children: [
+                         Row(
+                          children: const [
                             SizedBox(width: 10),
                             Icon(Icons.location_on_outlined, size: 20),
                             SizedBox(width: 5),
