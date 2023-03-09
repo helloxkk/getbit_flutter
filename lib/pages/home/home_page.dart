@@ -94,7 +94,7 @@ class HomePageState extends State<HomePage> {
           margin: const EdgeInsets.symmetric(vertical: 13, horizontal: 0),
           padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
           decoration: BoxDecoration(
-            color: Colors.grey[200],
+            color:  Theme.of(context).highlightColor,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Row(
@@ -157,7 +157,7 @@ class HomePageState extends State<HomePage> {
                     margin:
                         const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color:  Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(6),
                       boxShadow: [
                         BoxShadow(
@@ -171,8 +171,8 @@ class HomePageState extends State<HomePage> {
                     child:  Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                         Row(
-                          children: const [
+                         const Row(
+                          children: [
                             SizedBox(width: 10),
                             Icon(Icons.location_on_outlined, size: 20),
                             SizedBox(width: 5),
@@ -232,7 +232,7 @@ class HomePageState extends State<HomePage> {
                     length: 2,
                     child: Column(
                       children: <Widget>[
-                        TabBar(
+                        const TabBar(
                           tabs: <Widget>[
                             Tab(text: "动态列表"),
                             Tab(text: "推荐专栏"),
@@ -244,14 +244,14 @@ class HomePageState extends State<HomePage> {
                             children: <Widget>[
                               ListView.builder(
                                 shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 itemCount: 20,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        color: Colors.white,
+                                        color:  Theme.of(context).cardColor,
                                         borderRadius:
                                             BorderRadius.circular(8.0),
                                       ),
@@ -263,54 +263,54 @@ class HomePageState extends State<HomePage> {
                                           children: <Widget>[
                                             Text(
                                               "动态标题 $index",
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 18.0,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                            SizedBox(height: 8.0),
+                                            const SizedBox(height: 8.0),
                                             Text(
                                               "动态内容 $index",
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 16.0,
                                               ),
                                             ),
-                                            SizedBox(height: 8.0),
+                                            const SizedBox(height: 8.0),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: <Widget>[
-                                                Text(
+                                                const Text(
                                                   "12-31",
                                                   style: TextStyle(
                                                     fontSize: 14.0,
                                                     color: Colors.grey,
                                                   ),
                                                 ),
-                                                Icon(
+                                                const Icon(
                                                   Icons.thumb_up,
                                                   size: 16.0,
                                                   color: Colors.grey,
                                                 ),
-                                                SizedBox(width: 4.0),
+                                                const SizedBox(width: 4.0),
                                                 Text(
                                                   "$index",
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     fontSize: 14.0,
                                                     color: Colors.grey,
                                                   ),
                                                 ),
-                                                SizedBox(width: 8.0),
-                                                Icon(
+                                                const SizedBox(width: 8.0),
+                                                const Icon(
                                                   Icons.comment,
                                                   size: 16.0,
                                                   color: Colors.grey,
                                                 ),
-                                                SizedBox(width: 4.0),
+                                                const SizedBox(width: 4.0),
                                                 Text(
                                                   "$index",
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     fontSize: 14.0,
                                                     color: Colors.grey,
                                                   ),

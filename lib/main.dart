@@ -23,7 +23,12 @@ class MyAppPage extends StatelessWidget {
         key: UniqueKey(), // 使用 UniqueKey() 或其他不重复的 key
         title: '村晓',
         theme: ThemeData(
-          primaryColor: Colors.white,
+          brightness: Brightness.light,
+          primarySwatch: Colors.green,
+        ),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          primarySwatch: Colors.green,
         ),
         home: MyAppRoute(),
       ),
@@ -104,6 +109,10 @@ class _MyAppState extends State<MyAppRoute> {
                   "assets/images/menu_dynamic_p.png",
                   "assets/images/menu_mine_p.png"
                 ],
+                onTabChanged: (int index) {
+                  // 根据点击的 index 切换对应的页面
+                  _onItemTapped(index);
+                },
               ),
             ),
           );
